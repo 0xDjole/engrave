@@ -1,14 +1,13 @@
 {
-    "name": "anchor-typescript-jest",
+    "name": "soalan-nft-mint",
     "version": "1.0.0",
-    "description": "Anchor typescript jest",
-    "main": "index.js",
+    "description": "Solana nft mint",
     "scripts": {
         "lint": "eslint --fix --ext .ts src/** --no-error-on-unmatched-pattern",
         "test": "anchor test",
         "test-mint": "anchor test -- -t 'mintSpl'"
     },
-    "author": "djole-nikolic",
+    "author": "0xDjole",
     "license": "ISC",
     "devDependencies": {
         "@project-serum/anchor": "^0.13.0",
