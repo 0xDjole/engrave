@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "lint": "eslint --fix --ext .ts src/** --no-error-on-unmatched-pattern",
+        "test": "anchor test",
         "test-mint": "anchor test -- -t 'mintSpl'"
     },
     "author": "djole-nikolic",
