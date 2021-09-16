@@ -1,5 +1,7 @@
-use anchor_lang::prelude::*;
-use borsh::{BorshDeserialize, BorshSerialize};
+use anchor_lang::{
+    prelude::*, solana_program::system_program, AnchorDeserialize, AnchorSerialize, Discriminator,
+    Key,
+};
 
 #[program]
 pub mod init {
@@ -12,9 +14,35 @@ pub mod init {
 #[derive(Accounts)]
 pub struct Initialize {}
 
-#[account]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
+pub enum MetadataKey {
+    Uninitialized,
+    EditionV1,
+    MasterEditionV1,
+    ReservationListV1,
+    MetadataV1,
+    ReservationListV2,
+    MasterEditionV2,
+    EditionMarker,
+}
+
+#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
+pub struct Data {
+    /// The name of the asset
+    pub name: String,
+    /// The symbol for the asset
+    pub symbol: String,
+    /// URI pointing to JSON representing the asset
+    pub uri: String,
+    /// Royalty basis points that goes to creators in secondary sales (0-10000)
+    pub seller_fee_basis_points: u16,
+    /// Array of creators, optional
+    pub creators: Option<Vec<Creator>>,
+}
+
+#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
 pub struct Metadata {
-    pub key: Key,
+    pub key: MetadataKey,
     pub update_authority: Pubkey,
     pub mint: Pubkey,
     pub data: Data,
@@ -26,26 +54,10 @@ pub struct Metadata {
     pub edition_nonce: Option<u8>,
 }
 
-#[repr(C)]
-#[derive(BorshSerialize, BorshDeserialize, PartialEq, Debug, Clone)]
-pub struct Data {
-    name: String,
-    symbol: String,
-    uri: String,
-    creators: Option<Vec<Pubkey>>,
-    update_authority: Pubkey,
-    seller_fee_basis_points: u16,
-}
-
-#[repr(C)]
-#[derive(BorshSerialize, BorshDeserialize, PartialEq, Debug, Clone, Copy)]
-pub enum Key {
-    Uninitialized,
-    EditionV1,
-    MasterEditionV1,
-    ReservationListV1,
-    MetadataV1,
-    ReservationListV2,
-    MasterEditionV2,
-    EditionMarker,
+#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
+pub struct Creator {
+    pub address: Pubkey,
+    pub verified: bool,
+    // In percentages, NOT basis points ;) Watch out!
+    pub share: u8,
 }
