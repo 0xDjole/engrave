@@ -1,18 +1,29 @@
-use anchor_lang::{
-    prelude::*, solana_program::system_program, AnchorDeserialize, AnchorSerialize, Discriminator,
-    Key,
-};
+use anchor_lang::{prelude::*, AnchorDeserialize, AnchorSerialize};
 
 #[program]
 pub mod init {
     use super::*;
-    pub fn initialize(_ctx: Context<Initialize>) -> ProgramResult {
-        Ok(())
+
+    pub fn create_metadata_account(ctx: Context<CreateMetadataAccount>) -> ProgramResult {
+        let metadata_account = &mut ctx.accounts.metadata_account;
     }
 }
 
 #[derive(Accounts)]
-pub struct Initialize {}
+pub struct CreateMetadataAccount<'info> {
+    #[account(
+        init,
+        seeds = [String::from("metadata").as_bytes(), ctx.program_id.as_bytes()],
+        bump = bump,
+        payer = authority,
+        space = 320,
+    )]
+    metadata_account: ProgramAccount<'info, Metadata>,
+    #[account(mut, signer)]
+    authority: AccountInfo<'info>,
+    rent: Sysvar<'info, Rent>,
+    system_program: AccountInfo<'info>,
+}
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone)]
 pub enum MetadataKey {
@@ -26,7 +37,7 @@ pub enum MetadataKey {
     EditionMarker,
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
+#[account]
 pub struct Data {
     /// The name of the asset
     pub name: String,
@@ -40,7 +51,7 @@ pub struct Data {
     pub creators: Option<Vec<Creator>>,
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
+#[account]
 pub struct Metadata {
     pub key: MetadataKey,
     pub update_authority: Pubkey,
@@ -54,7 +65,7 @@ pub struct Metadata {
     pub edition_nonce: Option<u8>,
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
+#[account]
 pub struct Creator {
     pub address: Pubkey,
     pub verified: bool,
