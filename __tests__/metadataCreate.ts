@@ -34,9 +34,9 @@ describe('metadataCreate', () => {
 
         await program.rpc.metadataCreate(data, true, {
             accounts: {
-                metadataAccount: metadataAccount,
+                metadataAccount: metadataAccount.publicKey,
                 mintKey: mint.publicKey,
-                authority: mintAuthorityAccount,
+                authority: mintAuthorityAccount.publicKey,
                 rent: anchor.web3.SYSVAR_RENT_PUBKEY,
                 systemProgram: anchor.web3.SystemProgram.programId
             },
