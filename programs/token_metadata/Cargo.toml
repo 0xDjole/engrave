@@ -1,12 +1,12 @@
 [package]
-name = "init"
+name = "metadata"
 version = "0.1.0"
 description = "Created with Anchor"
 edition = "2018"
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "init"
+name = "metadata"
 
 [features]
 no-entrypoint = []

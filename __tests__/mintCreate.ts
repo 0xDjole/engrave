@@ -1,7 +1,7 @@
 import * as anchor from '@project-serum/anchor'
 import { mintCreate } from '../services'
 
-describe('mintSpl', () => {
+describe('mintCreate', () => {
     // Configure the client to use the local cluster.
     anchor.setProvider(anchor.Provider.env())
     it("It's minted!", async () => {

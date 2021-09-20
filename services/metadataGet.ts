@@ -5,10 +5,10 @@ interface MetadataGetParams {
     program: anchor.Program
 }
 
-type MetadataGet = (params: MetadataGetParams) => Promise<anchor.web3.PublicKey>
+type MetadataGet = (params: MetadataGetParams) => Promise<Object>
 
 const metadataGet: MetadataGet = async ({ mintKey, program }) => {
-    const [metadataAccount] = anchor.utils.publicKey.findProgramAddressSync(
+    const [metadataKey] = anchor.utils.publicKey.findProgramAddressSync(
         [
             Buffer.from('metadata'),
             program.programId.toBuffer(),
@@ -16,8 +16,7 @@ const metadataGet: MetadataGet = async ({ mintKey, program }) => {
         ],
         program.programId
     )
-
-    return metadataAccount
+    return await program.account.metadata.fetch(metadataKey)
 }
 
 export default metadataGet

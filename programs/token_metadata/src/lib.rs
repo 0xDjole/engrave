@@ -1,24 +1,36 @@
 use anchor_lang::{prelude::*, AnchorDeserialize, AnchorSerialize};
 
 #[program]
-pub mod init {
+pub mod metadata {
     use super::*;
 
-    pub fn create_metadata_account(ctx: Context<CreateMetadataAccount>) -> ProgramResult {
+    pub fn metadata_create(
+        ctx: Context<MetadataCreate>,
+        data: Data,
+        is_mutable: bool,
+    ) -> ProgramResult {
         let metadata_account = &mut ctx.accounts.metadata_account;
+        metadata_account.key = MetadataKey::MasterEdition;
+        metadata_account.update_authority = *ctx.accounts.authority.to_account_info().key;
+        metadata_account.mint = *ctx.accounts.mint_key.to_account_info().key;
+        metadata_account.data = data;
+        metadata_account.primary_sale_happened = false;
+        metadata_account.is_mutable = is_mutable;
+        Ok(())
     }
 }
 
 #[derive(Accounts)]
-pub struct CreateMetadataAccount<'info> {
+#[instruction(data: Data, bump: u8)]
+pub struct MetadataCreate<'info> {
     #[account(
         init,
-        seeds = [String::from("metadata").as_bytes(), ctx.program_id.as_bytes()],
-        bump = bump,
+        seeds = [String::from("metadata").as_bytes(), &program_id.to_bytes(), mint_key.key.as_ref()],
         payer = authority,
         space = 320,
     )]
     metadata_account: ProgramAccount<'info, Metadata>,
+    mint_key: AccountInfo<'info>,
     #[account(mut, signer)]
     authority: AccountInfo<'info>,
     rent: Sysvar<'info, Rent>,
@@ -27,17 +39,10 @@ pub struct CreateMetadataAccount<'info> {
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone)]
 pub enum MetadataKey {
-    Uninitialized,
-    EditionV1,
-    MasterEditionV1,
-    ReservationListV1,
-    MetadataV1,
-    ReservationListV2,
-    MasterEditionV2,
-    EditionMarker,
+    MasterEdition,
 }
 
-#[account]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
 pub struct Data {
     /// The name of the asset
     pub name: String,
@@ -65,7 +70,7 @@ pub struct Metadata {
     pub edition_nonce: Option<u8>,
 }
 
-#[account]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
 pub struct Creator {
     pub address: Pubkey,
     pub verified: bool,

@@ -5,7 +5,8 @@
     "scripts": {
         "lint": "eslint --fix --ext .ts src/** --no-error-on-unmatched-pattern",
         "test": "anchor test",
-        "test-mint": "anchor test -- -t 'mintSpl'"
+        "test-mint": "anchor test -- -t 'mintCreate'",
+        "test-metadata": "anchor test -- -t 'metadataCreate'"
     },
     "author": "0xDjole",
     "license": "ISC",
