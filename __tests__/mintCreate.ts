@@ -8,12 +8,12 @@ describe('mintCreate', () => {
         // Add your test here.
         const provider = anchor.Provider.env()
         const payerAccount = anchor.web3.Keypair.generate()
-        const mintAuthorityAccount = anchor.web3.Keypair.generate()
+        const mintAuthority = anchor.web3.Keypair.generate()
 
         const mint = await mintCreate({
             provider,
             payerAccount,
-            mintAuthorityAccount
+            mintAuthority
         })
 
         expect(mint).toBeTruthy()
