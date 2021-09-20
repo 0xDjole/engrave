@@ -1,5 +1,7 @@
 import * as anchor from '@project-serum/anchor'
-import { mintCreate, metadataCreate, metadataGet, Data } from '../services'
+import { mintCreate, metadataGet, Data } from '../services'
+
+const { PublicKey } = anchor.web3
 
 describe('metadataCreate', () => {
     // Configure the client to use the local cluster.
@@ -11,6 +13,14 @@ describe('metadataCreate', () => {
         const mintAuthorityAccount = anchor.web3.Keypair.generate()
         const metadataAccount = anchor.web3.Keypair.generate()
         const program = anchor.workspace.Metadata
+
+        await provider.connection.confirmTransaction(
+            await provider.connection.requestAirdrop(
+                mintAuthorityAccount.publicKey,
+                10000000000
+            ),
+            'confirmed'
+        )
 
         const mint = await mintCreate({
             provider,
@@ -32,10 +42,19 @@ describe('metadataCreate', () => {
             ]
         }
 
-        await program.rpc.metadataCreate(data, true, {
+        const [metadataKey, bump] = await PublicKey.findProgramAddress(
+            [
+                'metadata',
+                program.programId.toBuffer(),
+                mint.publicKey.toBuffer()
+            ],
+            program.programId
+        )
+
+        await program.rpc.metadataCreate(data, true, bump, {
             accounts: {
-                metadataAccount: metadataAccount.publicKey,
-                mintKey: mint.publicKey,
+                metadata: metadataKey,
+                mint: mint.publicKey,
                 authority: mintAuthorityAccount.publicKey,
                 rent: anchor.web3.SYSVAR_RENT_PUBKEY,
                 systemProgram: anchor.web3.SystemProgram.programId

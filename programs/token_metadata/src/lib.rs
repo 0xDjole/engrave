@@ -8,11 +8,12 @@ pub mod metadata {
         ctx: Context<MetadataCreate>,
         data: Data,
         is_mutable: bool,
+        bump: u8,
     ) -> ProgramResult {
-        let metadata_account = &mut ctx.accounts.metadata_account;
+        let metadata_account = &mut ctx.accounts.metadata;
         metadata_account.key = MetadataKey::MasterEdition;
         metadata_account.update_authority = *ctx.accounts.authority.to_account_info().key;
-        metadata_account.mint = *ctx.accounts.mint_key.to_account_info().key;
+        metadata_account.mint = *ctx.accounts.mint.to_account_info().key;
         metadata_account.data = data;
         metadata_account.primary_sale_happened = false;
         metadata_account.is_mutable = is_mutable;
@@ -21,16 +22,17 @@ pub mod metadata {
 }
 
 #[derive(Accounts)]
-#[instruction(data: Data, bump: u8)]
+#[instruction(data: Data, is_mutable: bool, bump: u8)]
 pub struct MetadataCreate<'info> {
     #[account(
         init,
-        seeds = [String::from("metadata").as_bytes(), &program_id.to_bytes(), mint_key.key.as_ref()],
+        seeds = [String::from("metadata").as_bytes(), &program_id.to_bytes(), mint.key.as_ref()],
+        bump = bump,
         payer = authority,
         space = 320,
     )]
-    metadata_account: ProgramAccount<'info, Metadata>,
-    mint_key: AccountInfo<'info>,
+    metadata: ProgramAccount<'info, Metadata>,
+    mint: AccountInfo<'info>,
     #[account(mut, signer)]
     authority: AccountInfo<'info>,
     rent: Sysvar<'info, Rent>,
