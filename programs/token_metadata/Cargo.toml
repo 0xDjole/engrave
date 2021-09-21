@@ -1,12 +1,12 @@
 [package]
-name = "metadata"
+name = "token_metadata"
 version = "0.1.0"
 description = "Created with Anchor"
 edition = "2018"
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "metadata"
+name = "token_metadata"
 
 [features]
 no-entrypoint = []
@@ -15,4 +15,4 @@ cpi = ["no-entrypoint"]
 default = []
 
 [dependencies]
-anchor-lang = "0.13.2"
+anchor-lang = "0.16.0"
