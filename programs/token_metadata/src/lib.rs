@@ -38,7 +38,7 @@ pub struct MetadataCreate<'info> {
     #[account(mut, signer)]
     authority: AccountInfo<'info>,
     rent: Sysvar<'info, Rent>,
-    system_program: AccountInfo<'info>,
+    system_program: Program<'info, System>,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone)]
