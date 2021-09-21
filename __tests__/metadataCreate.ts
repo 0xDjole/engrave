@@ -12,7 +12,7 @@ describe('metadataCreate', () => {
         const payerAccount = anchor.web3.Keypair.generate()
         const mintAuthority = anchor.web3.Keypair.generate()
         const metadataAccount = anchor.web3.Keypair.generate()
-        const program = anchor.workspace.Metadata
+        const program = anchor.workspace.TokenMetadata
 
         await provider.connection.confirmTransaction(
             await provider.connection.requestAirdrop(

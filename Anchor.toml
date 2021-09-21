@@ -4,3 +4,7 @@ wallet = "~/.config/solana/id.json"
 
 [scripts]
 test = "npx jest --detectOpenHandles ./__tests__"
+
+[programs.localnet]
+token_metadata = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+

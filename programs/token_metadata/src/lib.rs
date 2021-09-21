@@ -3,7 +3,7 @@ use anchor_lang::{prelude::*, AnchorDeserialize, AnchorSerialize};
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 
 #[program]
-pub mod metadata {
+pub mod token_metadata {
     use super::*;
 
     pub fn metadata_create(
@@ -33,7 +33,7 @@ pub struct MetadataCreate<'info> {
         payer = authority,
         space = 320,
     )]
-    metadata: ProgramAccount<'info, Metadata>,
+    metadata: Account<'info, Metadata>,
     mint: AccountInfo<'info>,
     #[account(mut, signer)]
     authority: AccountInfo<'info>,
