@@ -1,2 +1,2 @@
-export { default as arweaveInit } from './arweaveInit'
-export { default as arweaveUpload } from './arweaveUpload'
+export * from './services'
+export * from './types'

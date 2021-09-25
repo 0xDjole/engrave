@@ -12,7 +12,8 @@
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
-        "suppressImplicitAnyIndexErrors": true
+        "suppressImplicitAnyIndexErrors": true,
+	"allowSyntheticDefaultImports": true
     },
     "include": ["__tests__", "migrations"]
 }

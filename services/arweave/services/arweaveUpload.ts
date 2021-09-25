@@ -1,13 +1,6 @@
-import Arweave from 'arweave'
+import { FArweaveUpload } from '../types'
 
-export default async (
-    data: string,
-    {
-        arweave
-    }: {
-        arweave: Arweave
-    }
-) => {
+const arweaveUpload: FArweaveUpload = async ({ data }, { arweave }) => {
     let key = await arweave.wallets.generate()
 
     let transaction = await arweave.createTransaction(
@@ -28,3 +21,5 @@ export default async (
         )
     }
 }
+
+export default arweaveUpload
