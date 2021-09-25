@@ -1,8 +1,6 @@
 import * as anchor from '@project-serum/anchor'
 import { mintCreate, metadataCreate, metadataGet, Data } from '../services'
 
-const { PublicKey } = anchor.web3
-
 describe('metadataCreate', () => {
     // Configure the client to use the local cluster.
     anchor.setProvider(anchor.Provider.env())

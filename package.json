@@ -6,7 +6,8 @@
         "lint": "eslint --fix --ext .ts src/** --no-error-on-unmatched-pattern",
         "test": "anchor test",
         "test-mint": "anchor test -- -t 'mintCreate'",
-        "test-metadata": "anchor test -- -t 'metadataCreate'"
+        "test-metadata": "anchor test -- -t 'metadataCreate'",
+	"test-arweave": "anchor test -- -t 'arweaveUpload'"
     },
     "author": "0xDjole",
     "license": "ISC",
@@ -26,6 +27,7 @@
     "dependencies": {
         "@solana/spl-token": "^0.1.6",
         "arweave": "^1.10.16",
-        "bn.js": "^5.2.0"
+        "bn.js": "^5.2.0",
+        "testweave-sdk": "^0.2.2"
     }
 }

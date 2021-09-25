@@ -1,25 +1,18 @@
 import Arweave from 'arweave'
+import TestWeave from 'testweave-sdk'
 
 export interface IArweaveUploadOptions {
     arweave: Arweave
+    testWeave?: TestWeave
 }
 
 export interface IArweaveUpload {
     data: string
 }
 
-export interface ApiConfig {
-    host?: string
-    protocol?: string
-    port?: string | number
-    timeout?: number
-    logging?: boolean
-    logger?: Function
-}
-
-export type FArweaveInit = (param: ApiConfig) => void
+export type FArweaveInit = () => Arweave
 
 export type FArweaveUpload = (
     param: IArweaveUpload,
     options: IArweaveUploadOptions
-) => Promise<void>
+) => Promise<string>

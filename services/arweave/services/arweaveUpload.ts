@@ -1,7 +1,10 @@
 import { FArweaveUpload } from '../types'
 
-const arweaveUpload: FArweaveUpload = async ({ data }, { arweave }) => {
-    let key = await arweave.wallets.generate()
+const arweaveUpload: FArweaveUpload = async (
+    { data },
+    { arweave, testWeave }
+) => {
+    let key = testWeave ? testWeave.rootJWK : await arweave.wallets.generate()
 
     let transaction = await arweave.createTransaction(
         {
@@ -20,6 +23,8 @@ const arweaveUpload: FArweaveUpload = async ({ data }, { arweave }) => {
             `${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`
         )
     }
+
+    return transaction.id
 }
 
 export default arweaveUpload
