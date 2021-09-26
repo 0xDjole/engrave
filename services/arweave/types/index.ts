@@ -7,7 +7,7 @@ export interface IArweaveUploadOptions {
 }
 
 export interface IArweaveUpload {
-    data: string
+    data: Buffer
 }
 
 export type FArweaveInit = () => Arweave

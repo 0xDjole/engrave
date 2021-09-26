@@ -1,6 +1,7 @@
 import { arweaveInit, arweaveUpload } from '../../services'
 import TestWeave from 'testweave-sdk'
 import { randomData } from '../utils'
+import axios from 'axios'
 
 describe('arweaveUpload', () => {
     it('Upload to arweave', async () => {
@@ -29,7 +30,7 @@ describe('arweaveUpload', () => {
             }
         )
 
-        expect(arweaveDataGet).toEqual(data)
+        expect(data.toString()).toEqual(arweaveDataGet)
         expect(statusAfterMine.status).toEqual(200)
     })
 })

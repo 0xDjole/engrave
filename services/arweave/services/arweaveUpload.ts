@@ -8,7 +8,7 @@ const arweaveUpload: FArweaveUpload = async (
 
     let transaction = await arweave.createTransaction(
         {
-            data: Buffer.from(data, 'utf8')
+            data
         },
         key
     )
@@ -19,6 +19,9 @@ const arweaveUpload: FArweaveUpload = async (
 
     while (!uploader.isComplete) {
         await uploader.uploadChunk()
+        console.log(
+            `${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`
+        )
     }
 
     return transaction.id

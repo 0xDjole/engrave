@@ -6,8 +6,8 @@ const arweaveInit: FArweaveInit = () => {
         host: 'localhost',
         port: 1984,
         protocol: 'http',
-        timeout: 20000,
-        logging: false
+        timeout: 200000,
+        logging: true
     })
 
     return arweave
