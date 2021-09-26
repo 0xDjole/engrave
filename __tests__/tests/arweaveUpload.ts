@@ -1,16 +1,17 @@
-import { arweaveInit, arweaveUpload } from '../services'
+import { arweaveInit, arweaveUpload } from '../../services'
 import TestWeave from 'testweave-sdk'
+import { randomData } from '../utils'
 
 describe('arweaveUpload', () => {
-    // Configure the client to use the local cluster.
     it('Upload to arweave', async () => {
-        // Add your test here.
+        const data = randomData()
+
         const arweave = arweaveInit()
         const testWeave = await TestWeave.init(arweave)
 
         const dataTransactionId = await arweaveUpload(
             {
-                data: 'Hello world'
+                data
             },
             { arweave, testWeave }
         )
@@ -19,6 +20,16 @@ describe('arweaveUpload', () => {
         const statusAfterMine = await arweave.transactions.getStatus(
             dataTransactionId
         )
-        console.log(statusAfterMine) // this will return 200
+
+        const arweaveDataGet = await arweave.transactions.getData(
+            dataTransactionId,
+            {
+                decode: true,
+                string: true
+            }
+        )
+
+        expect(arweaveDataGet).toEqual(data)
+        expect(statusAfterMine.status).toEqual(200)
     })
 })

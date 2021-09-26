@@ -1,5 +1,5 @@
 import * as anchor from '@project-serum/anchor'
-import { mintCreate, metadataCreate, metadataGet, Data } from '../services'
+import { mintCreate, metadataCreate, metadataGet, Data } from '../../services'
 
 describe('metadataCreate', () => {
     // Configure the client to use the local cluster.
