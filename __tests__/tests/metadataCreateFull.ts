@@ -26,7 +26,6 @@ describe('metadataCreateFull', () => {
             const image = await fs.readFile(
                 path.join(__dirname, '../utils/solana.png')
             )
-            console.log(image)
 
             await fs.writeFile(
                 path.join(__dirname, '../utils/solana-copy.png'),
@@ -44,7 +43,6 @@ describe('metadataCreateFull', () => {
                 { arweave, testWeave }
             )
 
-            console.log('dataTransactionId', dataTransactionId)
             await testWeave.mine()
 
             await sleep(10000)
@@ -52,13 +50,7 @@ describe('metadataCreateFull', () => {
             const status = await arweave.transactions.getStatus(
                 dataTransactionId
             )
-            console.log(status)
 
-            const arweaveDataGet = await arweave.transactions.getData(
-                dataTransactionId
-            )
-
-            console.log('ARAWEAVE', arweaveDataGet)
             const arweaveImage = `http://localhost:1984/${dataTransactionId}`
 
             const provider = anchor.Provider.env()
@@ -107,8 +99,6 @@ describe('metadataCreateFull', () => {
                 mintKey: mint.publicKey,
                 program
             })
-
-            console.log({ metadataGetData })
 
             expect(metadataAccount).toBeTruthy()
         } catch (error) {

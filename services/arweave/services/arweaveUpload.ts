@@ -2,9 +2,7 @@ import { FArweaveUpload } from '../types'
 import path from 'path'
 
 const contentType = (fileName: string) => {
-    console.log(fileName)
     const extension = path.extname(fileName)
-    console.log('exntesion', extension)
     switch (extension) {
         case '.png':
             return 'image/png'
@@ -29,7 +27,6 @@ const arweaveUpload: FArweaveUpload = async (
     )
 
     if (fileName) {
-        console.log(contentType(fileName))
         transaction.addTag('Content-Type', contentType(fileName))
     }
 

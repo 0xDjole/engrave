@@ -1,11 +1,5 @@
 import * as anchor from '@project-serum/anchor'
-
-interface MetadataGetParams {
-    mintKey: anchor.web3.PublicKey
-    program: anchor.Program
-}
-
-type MetadataGet = (params: MetadataGetParams) => Promise<Object>
+import { MetadataGet } from '../types'
 
 const metadataGet: MetadataGet = async ({ mintKey, program }) => {
     const [metadataKey] = anchor.utils.publicKey.findProgramAddressSync(

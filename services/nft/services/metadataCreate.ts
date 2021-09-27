@@ -1,31 +1,6 @@
 import * as anchor from '@project-serum/anchor'
-import { Token } from '@solana/spl-token'
-
+import { MetadataCreate } from '../types'
 const { PublicKey } = anchor.web3
-
-interface Creator {
-    address: anchor.web3.PublicKey
-    verified: boolean
-    share: number
-}
-
-export interface Data {
-    name: string
-    symbol: string
-    uri: string
-    seller_fee_basis_points: number
-    creators: [Creator]
-}
-
-interface MetadataCreateParams {
-    program: anchor.Program
-    data: Data
-    isMutable: boolean
-    mint: Token
-    mintAuthority: anchor.web3.Keypair
-}
-
-type MetadataCreate = (params: MetadataCreateParams) => Promise<void>
 
 const metadataCreate: MetadataCreate = async ({
     program,

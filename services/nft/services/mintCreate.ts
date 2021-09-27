@@ -1,13 +1,5 @@
-import * as anchor from '@project-serum/anchor'
 import { TOKEN_PROGRAM_ID, Token } from '@solana/spl-token'
-
-interface MintCreateParams {
-    provider: anchor.Provider
-    payerAccount: anchor.web3.Keypair
-    mintAuthority: anchor.web3.Keypair
-}
-
-type MintCreate = (params: MintCreateParams) => Promise<Token>
+import { MintCreate } from '../types'
 
 const mintCreate: MintCreate = async ({
     provider,

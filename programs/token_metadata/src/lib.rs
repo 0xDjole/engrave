@@ -54,10 +54,10 @@ pub struct Data {
     pub symbol: String,
     /// URI pointing to JSON representing the asset
     pub uri: String,
-    /// Royalty basis points that goes to creators in secondary sales (0-10000)
-    pub seller_fee_basis_points: u16,
     /// Array of creators, optional
     pub creators: Option<Vec<Creator>>,
+    /// Royalty basis points that goes to creators in secondary sales (0-10000)
+    pub seller_fee_basis_points: u16,
 }
 
 #[account]
