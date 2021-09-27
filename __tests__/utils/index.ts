@@ -8,3 +8,8 @@ export const randomData = (): Buffer => {
 
     return Buffer.from(name)
 }
+
+export const randomImage = (): string => {
+    const image = faker.image.image()
+    return image
+}

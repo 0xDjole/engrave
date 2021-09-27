@@ -10,7 +10,6 @@ import {
 } from '../../services'
 import { promises as fs } from 'fs'
 import path from 'path'
-import axios from 'axios'
 
 function sleep(ms: number) {
     return new Promise(resolve => {
@@ -25,12 +24,12 @@ describe('metadataCreateFull', () => {
         // Add your test here.
         try {
             const image = await fs.readFile(
-                path.join(__dirname, '../utils/test.png')
+                path.join(__dirname, '../utils/solana.png')
             )
             console.log(image)
 
             await fs.writeFile(
-                path.join(__dirname, '../utils/test-copy.png'),
+                path.join(__dirname, '../utils/solana-copy.png'),
                 image
             )
 
@@ -39,7 +38,8 @@ describe('metadataCreateFull', () => {
 
             const dataTransactionId = await arweaveUpload(
                 {
-                    data: image
+                    data: image,
+                    fileName: 'test.png'
                 },
                 { arweave, testWeave }
             )
@@ -59,6 +59,7 @@ describe('metadataCreateFull', () => {
             )
 
             console.log('ARAWEAVE', arweaveDataGet)
+            const arweaveImage = `http://localhost:1984/${dataTransactionId}`
 
             const provider = anchor.Provider.env()
             const payerAccount = anchor.web3.Keypair.generate()

@@ -1,7 +1,6 @@
 import { arweaveInit, arweaveUpload } from '../../services'
 import TestWeave from 'testweave-sdk'
 import { randomData } from '../utils'
-import axios from 'axios'
 
 describe('arweaveUpload', () => {
     it('Upload to arweave', async () => {
