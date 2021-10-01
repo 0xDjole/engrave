@@ -27,11 +27,11 @@ describe('metadataCreateFull', () => {
         // Add your test here.
         try {
             const image = await fs.readFile(
-                path.join(__dirname, '../utils/solana.png')
+                path.join(__dirname, '../utils/heart.png')
             )
 
             await fs.writeFile(
-                path.join(__dirname, '../utils/solana-copy.png'),
+                path.join(__dirname, '../utils/heart-copy.png'),
                 image
             )
 
@@ -41,7 +41,7 @@ describe('metadataCreateFull', () => {
             const dataTransactionId = await arweaveUpload(
                 {
                     data: image,
-                    fileName: 'test.png'
+                    extension: 'png'
                 },
                 { arweave, testWeave }
             )
@@ -72,7 +72,7 @@ describe('metadataCreateFull', () => {
             const metadataTransactionId = await arweaveUpload(
                 {
                     data: Buffer.from(JSON.stringify(metadataExternal)),
-                    fileName: 'test.json'
+                    extension: 'json'
                 },
                 { arweave, testWeave }
             )

@@ -1,14 +1,12 @@
 import { FArweaveUpload } from '../types'
-import path from 'path'
 
-const contentType = (fileName: string) => {
-    const extension = path.extname(fileName)
+const contentType = (extension: string) => {
     switch (extension) {
-        case '.png':
+        case 'png':
             return 'image/png'
-        case '.jpg':
+        case 'jpg':
             return 'image/jpg'
-        case '.json':
+        case 'json':
             return 'application/json'
         default:
             return 'text/plain'
@@ -16,7 +14,7 @@ const contentType = (fileName: string) => {
 }
 
 const arweaveUpload: FArweaveUpload = async (
-    { data, fileName },
+    { data, extension },
     { arweave, testWeave }
 ) => {
     let key = testWeave ? testWeave.rootJWK : await arweave.wallets.generate()
@@ -28,8 +26,8 @@ const arweaveUpload: FArweaveUpload = async (
         key
     )
 
-    if (fileName) {
-        transaction.addTag('Content-Type', contentType(fileName))
+    if (extension) {
+        transaction.addTag('Content-Type', contentType(extension))
     }
 
     await arweave.transactions.sign(transaction, key)
