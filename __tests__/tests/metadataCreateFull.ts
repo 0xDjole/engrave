@@ -5,9 +5,12 @@ import {
     arweaveInit,
     mintCreate,
     metadataCreate,
+    IMetadataExtension,
+    MetadataCategory,
     metadataGet,
     Data
 } from '../../services'
+import { randomString } from '../utils'
 import { promises as fs } from 'fs'
 import path from 'path'
 
@@ -42,16 +45,40 @@ describe('metadataCreateFull', () => {
                 },
                 { arweave, testWeave }
             )
-
             await testWeave.mine()
-
             await sleep(10000)
-
-            const status = await arweave.transactions.getStatus(
-                dataTransactionId
-            )
-
             const arweaveImage = `http://localhost:1984/${dataTransactionId}`
+
+            console.log(arweaveImage)
+            const metadataExternal: IMetadataExtension = {
+                name: randomString(),
+                symbol: randomString(),
+
+                creators: null,
+                description: randomString(),
+                // preview image absolute URI
+                image: arweaveImage,
+
+                // stores link to item on meta
+                external_url: randomString(),
+
+                seller_fee_basis_points: 0,
+
+                properties: {
+                    category: MetadataCategory.Image
+                }
+            }
+
+            const metadataTransactionId = await arweaveUpload(
+                {
+                    data: Buffer.from(JSON.stringify(metadataExternal)),
+                    fileName: 'test.json'
+                },
+                { arweave, testWeave }
+            )
+            await testWeave.mine()
+            await sleep(2000)
+            const uri = `http://localhost:1984/${metadataTransactionId}`
 
             const provider = anchor.Provider.env()
             const payerAccount = anchor.web3.Keypair.generate()
@@ -76,7 +103,7 @@ describe('metadataCreateFull', () => {
             const data: Data = {
                 name: 'fake',
                 symbol: 'fake',
-                uri: 'fake',
+                uri,
                 seller_fee_basis_points: 0,
                 creators: [
                     {
@@ -100,6 +127,7 @@ describe('metadataCreateFull', () => {
                 program
             })
 
+            console.log(metadataGetData)
             expect(metadataAccount).toBeTruthy()
         } catch (error) {
             console.log(error)

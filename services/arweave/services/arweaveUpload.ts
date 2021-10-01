@@ -8,6 +8,8 @@ const contentType = (fileName: string) => {
             return 'image/png'
         case '.jpg':
             return 'image/jpg'
+        case '.json':
+            return 'application/json'
         default:
             return 'text/plain'
     }

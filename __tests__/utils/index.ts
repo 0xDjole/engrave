@@ -9,6 +9,14 @@ export const randomData = (): Buffer => {
     return Buffer.from(name)
 }
 
+export const randomString = (): string => {
+    const name = `${faker.lorem.word(
+        5
+    )}-${moment().toISOString()}-${faker.lorem.word(5)}`
+
+    return name
+}
+
 export const randomImage = (): string => {
     const image = faker.image.image()
     return image
